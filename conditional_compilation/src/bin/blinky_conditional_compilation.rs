@@ -12,7 +12,7 @@ use embassy_stm32::time::Hertz;
 use embassy_stm32::Config;
 
 trait CustomConfig {
-    fn config() -> Self {
+    fn config() -> ConfigType {
         #[cfg(feature = "stm32h7")]
         return Default::default();
 
@@ -49,10 +49,10 @@ trait CustomConfig {
 trait LEDPin {
     fn led_pin(&self) -> PinType {
         #[cfg(feature="stm31h7")]
-        return self.PB13;
+        return self.PB14;
 
         #[cfg(feature="stm31h7rs")]
-        return self.PD9;
+        return self.PD10;
     }
 }
 
