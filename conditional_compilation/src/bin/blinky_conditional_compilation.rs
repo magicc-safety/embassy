@@ -6,14 +6,18 @@ use embassy_executor::Spawner;
 use embassy_stm32::gpio::{Level, Output, Speed};
 use embassy_time::Timer;
 use {defmt_rtt as _, panic_probe as _};
+#[cfg(feature="stm32h7rs")]
+use embassy_stm32::time::Hertz;
+#[cfg(feature="stm32h7rs")]
+use embassy_stm32::Config;
 
 #[embassy_executor::main]
 async fn main(_spawner: Spawner) {
 
-    #[cfg(board="stm32h7")]
+    #[cfg(feature="stm32h7")]
     let config = Default::default();
 
-    #[cfg(board="stm32h7rs")]
+    #[cfg(feature="stm32h7rs")]
     let config = {
         let mut config = Config::default();
         {
@@ -44,10 +48,10 @@ async fn main(_spawner: Spawner) {
     let p = embassy_stm32::init(config);
     info!("Hello World!");
 
-    #[cfg(board="stm32h7")]
+    #[cfg(feature="stm32h7")]
     let led_pin = p.PB14;
 
-    #[cfg(board="stm32h7rs")]
+    #[cfg(feature="stm32h7rs")]
     let led_pin = p.PD10;
 
     let mut led = Output::new(led_pin, Level::High, Speed::Low);
