@@ -46,9 +46,6 @@ trait CustomConfig {
     }
 }
 
-impl Custom_Compilation for CustomConfig {}
-
-
 trait LEDPin {
     fn led_pin(&self) -> PinType {
         #[cfg(feature="stm31h7")]
