@@ -12,15 +12,25 @@ async fn main(_spawner: Spawner) {
     let p = embassy_stm32::init(Default::default());
     info!("Hello World!");
 
-    let mut led = Output::new(p.PB14, Level::High, Speed::Low);
+    let green_led = Output::new(p.PB0, Level::High, Speed::Low);
+    let yellow_led = Output::new(p.PE1, Level::High, Speed::Low);
+    let red_led = Output::new(p.PB14, Level::High, Speed::Low);
 
+    let mut led_array = [green_led, yellow_led, red_led];
+    
     loop {
         info!("high");
-        led.set_high();
-        Timer::after_millis(500).await;
+        for led in led_array.iter_mut() {
+            led.set_high();
+            Timer::after_millis(100).await;
+        }
+        // led.set_high();
 
         info!("low");
-        led.set_low();
-        Timer::after_millis(500).await;
+        for led in led_array.iter_mut() {
+            led.set_low();
+            Timer::after_millis(100).await;
+        }
+        // led.set_low();
     }
 }
